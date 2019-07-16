@@ -11,9 +11,9 @@ f.prototype.getDB = function() {
 			.then(() => this.client.db(this.config.databaseName))
 	);
 }
-f.prototype.findCitiesByState = function(state, params) {
-	const limit = parseInt(params.limit) || 10;
-	const offset = parseInt(params.offset) || 0;
+f.prototype.findCitiesByState = function(state, params = {}) {
+	const limit = parseInt(params['limit']) || 10;
+	const offset = parseInt(params['offset']) || 0;
 	return (
 		this.getDB()
 			.then(db => 
