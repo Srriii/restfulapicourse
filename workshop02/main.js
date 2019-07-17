@@ -28,10 +28,10 @@ app.use(express.urlencoded({ extended: true }));
 
 // Mandatory workshop
 // TODO GET /api/states
-app.get('/api/state',
+app.get('/api/states',
 	(req, resp) => {
-		// Content-Type: application.json
-		resp.type('application.json')
+		// Content-Type: application/json
+		resp.type('application/json')
 
 		db.findAllStates()
 			.then(result => {
@@ -54,7 +54,7 @@ app.get('/api/state',
 app.get('/api/state/:state',
 	(req, resp) => {
 		const stateAbbrev = req.params.state;
-		resp.type('application.json')
+		resp.type('application/json')
 		db.findAllStates()
 			.then(result => {
 				if (result.indexOf(stateAbbrev.toUpperCase()) < 0) {
@@ -82,7 +82,7 @@ app.get('/api/state/:state',
 app.get('/api/city/:cityId',
 	(req, resp) => {
 		const cityAbbrev = req.params.cityId;
-		resp.type('application.json')
+		resp.type('application/json')
 		db.findCityById(cityAbbrev)
 			.then(result => {
 				resp.status(200)
@@ -110,7 +110,7 @@ app.get('/api/city/:cityId',
 app.post('/api/city',
 	(req, resp) => {
 		const newCity = req.body;
-		resp.type('application.json')
+		resp.type('application/json')
 		db.insertCity(newCity)
 			.then(result => {
 				resp.status(201)

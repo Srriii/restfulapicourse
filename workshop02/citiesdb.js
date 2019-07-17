@@ -13,8 +13,8 @@ f.prototype.getDB = function() {
 	);
 }
 f.prototype.findCitiesByState = function(state, params = {}) {
-	const limit = parseInt(params.['limit']) || 10;
-	const offset = parseInt(params.['offset']) || 0;
+	const limit = parseInt(params['limit']) || 10;
+	const offset = parseInt(params['offset']) || 0;
 	return (
 		this.getDB()
 			.then(db => 

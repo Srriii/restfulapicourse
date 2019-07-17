@@ -35,18 +35,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // TODO 1/2 Load schemans
+const citySchema = require('./schema/city-schema.json');
 
-
-
+/*
+new OpenAPIValidator({
+	apiSpecPath: join(__dirname, 'schema', 'city-api.yaml')
+}).install(app)
+*/
 
 // Start of workshop
 
 // Mandatory workshop
 // TODO GET /api/states
-app.get('/api/state',
+app.get('/api/states',
 	(req, resp) => {
 		// Content-Type: application.json
-		resp.type('application.json')
+		resp.type('application/json')
 
 		db.findAllStates()
 			.then(result => {
@@ -69,12 +73,12 @@ app.get('/api/state',
 app.get('/api/state/:state',
 	(req, resp) => {
 		const stateAbbrev = req.params.state;
-		resp.type('application.json')
+		resp.type('application/json')
 		db.findAllStates()
 			.then(result => {
 				if (result.indexOf(stateAbbrev.toUpperCase()) < 0) {
 					resp.status(400)
-					resp.json({error: `Not a valid state: ${stateAbbrev}`})
+					resp.json({error: `Not a valid state: '${stateAbbrev}'`})
 					return;
 				}
 				return (db.findCitiesByState(stateAbbrev))
@@ -97,7 +101,7 @@ app.get('/api/state/:state',
 app.get('/api/city/:cityId',
 	(req, resp) => {
 		const cityAbbrev = req.params.cityId;
-		resp.type('application.json')
+		resp.type('application/json')
 		db.findCityById(cityAbbrev)
 			.then(result => {
 				resp.status(200)
@@ -123,9 +127,10 @@ app.get('/api/city/:cityId',
 }
 */
 app.post('/api/city',
+schemaValidator.validate({body: citySchema}),
 	(req, resp) => {
 		const newCity = req.body;
-		resp.type('application.json')
+		resp.type('application/json')
 		db.insertCity(newCity)
 			.then(result => {
 				resp.status(201)
