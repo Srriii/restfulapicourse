@@ -98,9 +98,30 @@ app.get('/api/city/:cityId',
 
 
 // TODO POST /api/city
-
-
-
+// Content-Type: application/json
+/*
+    {
+    "city" : "BARRE",
+    "loc" : [ -72.108354, 42.409698 ],
+    "pop" : 4546,
+    "state" : "MA"
+}
+*/
+app.post('/api/city',
+	(req, resp) => {
+		const newCity = req.body;
+		resp.type('application.json')
+		db.insertCity(newCity)
+			.then(result => {
+				resp.status(201)
+				resp.json(result);
+			})
+			.catch(error => {
+				resp.status(400)
+				resp.json({ error: error})
+			});
+		}
+	);
 
 // Optional workshop
 // TODO HEAD /api/state/:state
